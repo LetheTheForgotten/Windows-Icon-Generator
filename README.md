@@ -36,6 +36,12 @@ If no images are found, leaves folder untouched
 
 # Troubleshooting
 
+## small icon sizes
+
+The icons generated using pillow occasionally glitch and don't scale the icons properly with size, if this happens rerun the script or use the provided gimp alternative
+
+## Icons not appearing
+
 Windows hates consistency when it comes to icons, the best option to make sure they show up is a system restart.
 
 If you don't feel like doing that what I've found works consistently is opening and closing the customization tab of a single folder in the directory and then rerunning the script, this will usually cause all of the folders to automatically refresh.
@@ -44,5 +50,4 @@ Alternatively opening the customization tab of a folders properties and clicking
 
 Or just waiting I've had the folder icons pop in after a while doing something else. I assume this is some kind of caching thing on windows end.
 
-Should work on Windows 10 and 11
 
