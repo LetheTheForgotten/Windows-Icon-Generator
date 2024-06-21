@@ -29,11 +29,11 @@ If no images are found, leaves folder untouched
 |Argument        |Description|
 | --------------- |----------|
 |INPUT| input filepath to have icons generated for. Required.|
-|--gimp `path` |Filepath to locally installed gimp executable. Using this will make the program use the GIMP CLI rather than pillow to convert images into icons. Results in Higher Quality but is more intensive |
+|--gimp `path` |Filepath to locally installed gimp command line executable(gimp-console.exe). Using this will make the program use the GIMP CLI rather than pillow to convert images into icons. Results in Higher Quality but is more intensive |
 |--timeout `timeout` |Override for gimp image processing timeout, in seconds. Default is 10 seconds. -1 disables timeout, requiring manual closure of the gimp cli window |
 |--iconsonly|creates .ico files without assigning them|
 |--iconoverwrite|skips the prompt when overwriting an existing .ico file with a default y/n answer. 1 will always overwrite the existing file, 0 will always skip it|
-
+|--uselast|Makes Icon generation use the last image in a folder rather than the first one.|
 # Troubleshooting
 
 ## small icon sizes

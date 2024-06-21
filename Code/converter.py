@@ -20,19 +20,22 @@ def convert_first_image(directory):
             elif args.iconoverwrite==0:
                 return
 
-    # Actual ico file generation                
-    for item in os.listdir(directory):
+    # Actual ico file generation
+    directorylist = os.listdir(directory)
+    if(args.uselast):
+        directorylist=list(reversed(directorylist))
+        print(directorylist)
+    for item in directorylist:
         currentimage = os.path.join(directory, item)
         if os.path.isfile(currentimage) and (currentimage.endswith('.jpg') or currentimage.endswith('.png')or currentimage.endswith('.jpeg')):
 
             # gimp implementation
             if args.gimp:
-
+                
                 gimppath=args.gimp 
                 gimppath=re.sub(r"\"",r"\\\"", gimppath)
 
                 timeout = 10
-
                 if args.timeout:
                     timeout=args.timeout
 
@@ -76,8 +79,6 @@ def convert_first_image(directory):
                                     "-s"],
                                    timeout=timeout )
 
-                # if gimp won't close the cli on its own, kill it
-                # (it never closes on its own god knows why)
 
                 except Exception:
                     print(currentimage+" converted")
@@ -139,17 +140,22 @@ parser.add_argument("input",
                     help="input filepath to have icons generated for",
                     type=str)
 
+
 parser.add_argument("--gimp",
-                    help=("Filepath to locally installed gimp executable." +
+                    help=("Filepath to locally installed gimp console executable." +
                           "Using this makes program use GIMP rather than pillow to convert images into ico." +
                           "Higher Quality but more intensive"))
 
 parser.add_argument("--timeout",
                     help=("Override for gimp image processing timeout, in seconds. Default is 10." +
-                          "-1 disables timeout, requiring manual closure of the gimp cli window"), type=int)
+                          "-1 disables timeout, potentally requiring manual closure of the gimp cli window"), type=int)
 
 parser.add_argument("--iconsonly",
                     help="creates .ico files without assigning them",
+                    action="store_true")
+
+parser.add_argument("--uselast",
+                    help="set to use the last image in a file rather than the first one.",
                     action="store_true")
 
 parser.add_argument("--iconoverwrite",
