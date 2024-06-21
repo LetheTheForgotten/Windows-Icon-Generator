@@ -34,6 +34,8 @@ If no images are found, leaves folder untouched
 |--iconsonly|creates .ico files without assigning them|
 |--iconoverwrite|skips the prompt when overwriting an existing .ico file with a default y/n answer. 1 will always overwrite the existing file, 0 will always skip it|
 |--uselast|Makes Icon generation use the last image in a folder rather than the first one.|
+|--reg|Uses first/last image matching given regex as icon.|
+|--v|verbose output.|
 # Troubleshooting
 
 ## small icon sizes
