@@ -25,9 +25,19 @@ def convert_first_image(directory):
     if(args.uselast):
         directorylist=list(reversed(directorylist))
         print(directorylist)
+
     for item in directorylist:
         currentimage = os.path.join(directory, item)
         if os.path.isfile(currentimage) and (currentimage.endswith('.jpg') or currentimage.endswith('.png')or currentimage.endswith('.jpeg')):
+            if(args.reg):
+                try:
+
+                    if(re.search(str(args.reg),currentimage)==None):
+                        continue
+                except  Exception as e:
+                    print(e)
+                    print("error occured during regex!")
+                    sys.exit()
 
             # gimp implementation
             if args.gimp:
@@ -57,6 +67,9 @@ def convert_first_image(directory):
                                         "-f",
                                         "-d",
                                         "-s"])
+                        if (args.v):
+                            print("File "+currentimage+" converted")
+                        
                         break
                 try:   
                     subprocess.run([gimppath,
@@ -78,10 +91,12 @@ def convert_first_image(directory):
                                     "-d",
                                     "-s"],
                                    timeout=timeout )
-
+                    if (args.v):
+                            print("File "+currentimage+" converted")
+                    
 
                 except Exception:
-                    print(currentimage+" converted")
+                    print(currentimage+" timed out")
             else:
 
                 # pillow implementation
@@ -92,6 +107,8 @@ def convert_first_image(directory):
                 new_img = Image.new('RGBA', (size,size), (0,0,0,0))
                 new_img.paste(img,(int((size - x) / 2), int((size - y) / 2)))
                 new_img.save(directory+'\\icon.ico', sizes=[(255,255)])
+                if (args.v):
+                            print("File "+currentimage+" converted")
 
             break 
     return
@@ -127,7 +144,8 @@ def assign_icon(directory):
     desktop = open(desktopIniPath,"w")
     desktop.write(data)
     desktop.close()
-
+    if (args.v):
+                print("icon assigned in "+directory)
     
     check = ctypes.windll.kernel32.SetFileAttributesW(desktopIniPath,0x02)
     if(not check):
@@ -140,6 +158,9 @@ parser.add_argument("input",
                     help="input filepath to have icons generated for",
                     type=str)
 
+parser.add_argument("--reg",
+                    help="use first image file matching regex expression",
+                    type=str)
 
 parser.add_argument("--gimp",
                     help=("Filepath to locally installed gimp console executable." +
@@ -158,9 +179,14 @@ parser.add_argument("--uselast",
                     help="set to use the last image in a file rather than the first one.",
                     action="store_true")
 
+
 parser.add_argument("--iconoverwrite",
                     help=("overrides y/n prompt when overwriting an existing .ico file." +
                           " 1 always overwrites, 0 always skips"), type=int, choices=[1,0])
+
+parser.add_argument("--v",
+                    help=("verbose output."),
+                          action="store_true")
 
 args=parser.parse_args()
 
