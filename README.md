@@ -6,11 +6,12 @@ python:
 
 https://www.python.org/
 
-one of either:
 
 pillow: 
 
 https://pillow.readthedocs.io/en/stable/index.html
+
+optionally:
 
 gimp: 
 

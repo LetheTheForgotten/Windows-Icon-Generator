@@ -39,9 +39,18 @@ def convert_first_image(directory):
                     print("error occured during regex!")
                     sys.exit()
 
+            #prep image resize using pillow
+            img= Image.open(currentimage)
+            x,y = img.size
+            size=max(255,x,y)
+            new_img = Image.new('RGBA', (size,size), (0,0,0,0))
+            new_img.paste(img,(int((size - x) / 2), int((size - y) / 2)))
+
             # gimp implementation
             if args.gimp:
-                
+                temp_icon = directory+'\\icon.png'
+                new_img.save(temp_icon)
+
                 gimppath=args.gimp 
                 gimppath=re.sub(r"\"",r"\\\"", gimppath)
 
@@ -54,9 +63,9 @@ def convert_first_image(directory):
                                         "-i",
                                         "-b",
                                         ("(let* ( (image (car (gimp-file-load RUN-NONINTERACTIVE \"" +
-                                                               re.sub(r"\\",r'\\\\',currentimage) +
+                                                               re.sub(r"\\",r'\\\\',temp_icon) +
                                                                "\" \"" +
-                                                               re.sub(r"\\",r'\\\\',currentimage) +
+                                                               re.sub(r"\\",r'\\\\',temp_icon) +
                                                                "\"))) (drawable (car (gimp-image-get-active-layer image))))(gimp-file-save RUN-NONINTERACTIVE image drawable \"" +
                                                                re.sub(r"\\",r"\\\\",directory+'\\icon.ico') +
                                                                "\" \""+re.sub(r"\\",r'\\\\',directory +
@@ -69,16 +78,16 @@ def convert_first_image(directory):
                                         "-s"])
                         if (args.v):
                             print("File "+currentimage+" converted")
-                        
+                        os.remove(temp_icon)
                         break
                 try:   
                     subprocess.run([gimppath,
                                     "-i",
                                     "-b",
                                     ("(let* ( (image (car (gimp-file-load RUN-NONINTERACTIVE \"" +
-                                                           re.sub(r"\\",r'\\\\',currentimage) +
+                                                           re.sub(r"\\",r'\\\\',temp_icon) +
                                                            "\" \"" +
-                                                           re.sub(r"\\",r'\\\\',currentimage) +
+                                                           re.sub(r"\\",r'\\\\',temp_icon) +
                                                            "\"))) (drawable (car (gimp-image-get-active-layer image))))(gimp-file-save RUN-NONINTERACTIVE image drawable \"" +
                                                            re.sub(r"\\",r"\\\\",directory+'\\icon.ico') +
                                                            "\" \"" +
@@ -94,21 +103,16 @@ def convert_first_image(directory):
                     if (args.v):
                             print("File "+currentimage+" converted")
                     
-
+                    os.remove(temp_icon)
                 except Exception:
                     print(currentimage+" timed out")
+                    os.remove(temp_icon)
             else:
 
                 # pillow implementation
-                
-                img= Image.open(currentimage)
-                x,y = img.size
-                size=max(255,x,y)
-                new_img = Image.new('RGBA', (size,size), (0,0,0,0))
-                new_img.paste(img,(int((size - x) / 2), int((size - y) / 2)))
                 new_img.save(directory+'\\icon.ico', sizes=[(255,255)])
                 if (args.v):
-                            print("File "+currentimage+" converted")
+                            print("File "+currentimage+" converted using pillow")
 
             break 
     return
