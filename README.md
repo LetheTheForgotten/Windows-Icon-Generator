@@ -47,12 +47,7 @@ The icons generated using pillow occasionally glitch and don't scale the icons p
 
 Desktop.ini only works when the folder is set to read-only, run `attrib +r * /d` on the command line in the directory where icons are broken to set this.
 
-Windows hates consistency when it comes to icons, the best option to make sure they show up is a system restart.
+If they don't show up after doing this change the sizes of the icons, this will kick the system into finding the ico files.
 
-If you don't feel like doing that what I've found works consistently is opening and closing the customization tab of a single folder in the directory and then rerunning the script, this will usually cause all of the folders to automatically refresh.
-
-Alternatively opening the customization tab of a folders properties and clicking ok will always cause the icon to update properly. 
-
-Or just waiting I've had the folder icons pop in after a while doing something else. I assume this is some kind of caching thing on windows end.
 
 
