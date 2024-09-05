@@ -45,6 +45,8 @@ The icons generated using pillow occasionally glitch and don't scale the icons p
 
 ## Icons not appearing
 
+Desktop.ini only works when the folder is set to read-only, run `attrib +r * /d` on the command line in the directory where icons are broken to set this.
+
 Windows hates consistency when it comes to icons, the best option to make sure they show up is a system restart.
 
 If you don't feel like doing that what I've found works consistently is opening and closing the customization tab of a single folder in the directory and then rerunning the script, this will usually cause all of the folders to automatically refresh.
