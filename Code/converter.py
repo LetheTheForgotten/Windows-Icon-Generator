@@ -28,7 +28,7 @@ def convert_first_image(directory):
 
     for item in directorylist:
         currentimage = os.path.join(directory, item)
-        if os.path.isfile(currentimage) and (currentimage.endswith('.jpg') or currentimage.endswith('.png')or currentimage.endswith('.jpeg')):
+        if os.path.isfile(currentimage) and (currentimage.endswith('.jpg') or currentimage.endswith('.png')or currentimage.endswith('.jpeg') or currentimage.endswith('.webp')):
             if(args.reg):
                 try:
 
@@ -118,7 +118,7 @@ def convert_first_image(directory):
     return
 
 def assign_icon(directory):
-    desktopIniPath=directory+"\Desktop.ini"
+    desktopIniPath=directory+"\\Desktop.ini"
     
     if (not('icon.ico' in os.listdir(directory))):
         
